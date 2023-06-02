@@ -12,16 +12,17 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
       <header className="bg-background container z-40">
         <div className="flex h-20 items-center justify-between py-6">
           <MainNav items={landingPageConfig.mainNav} />
-          <nav>
+          <nav className="flex align-middle">
             <Link
               href="/login"
               className={cn(
-                buttonVariants({ variant: "secondary", size: "sm" }),
+                buttonVariants({ variant: "default", size: "sm" }),
                 "px-4"
               )}
             >
               Login
             </Link>
+            
           </nav>
         </div>
       </header>

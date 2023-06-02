@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react"
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
+  return <div>landing page ui will go on this component</div>
 }
 
 export default page
