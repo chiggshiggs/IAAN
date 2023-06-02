@@ -43,9 +43,6 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link> */}
-            <Button variant={"outline"} size={"sm"}>
-              Login
-            </Button>
             <ThemeToggle />
           </nav>
         </div>
