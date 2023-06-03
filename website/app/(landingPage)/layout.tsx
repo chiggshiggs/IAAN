@@ -14,7 +14,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
           <MainNav items={landingPageConfig.mainNav} />
           <nav className="flex align-middle">
             <Link
-              href="/login"
+              href={"/login"}
               className={cn(
                 buttonVariants({ variant: "default", size: "sm" }),
                 "px-4"
