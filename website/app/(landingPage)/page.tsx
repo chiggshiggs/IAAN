@@ -1,7 +1,13 @@
 import React from "react"
 
 const page = () => {
-  return <div>landing page ui will go on this component</div>
+  return (
+    <>
+      <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+        some text
+      </section>
+    </>
+  )
 }
 
 export default page

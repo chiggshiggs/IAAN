@@ -11,8 +11,10 @@ import {
   HelpCircle,
   Image,
   Laptop,
+  Linkedin,
   Loader2,
   LucideProps,
+  Menu,
   Moon,
   MoreVertical,
   Pizza,
@@ -23,14 +25,13 @@ import {
   Twitter,
   User,
   X,
-  Linkedin,
   type Icon as LucideIcon,
 } from "lucide-react"
-
 
 export type Icon = LucideIcon
 
 export const Icons = {
+  menu: Menu,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,

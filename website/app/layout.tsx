@@ -5,9 +5,9 @@ import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
-import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import Provider from "@/app/Provider"
 
 export const metadata: Metadata = {
   title: {
@@ -28,9 +28,11 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode
+  session: any
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+// @ts-ignore
+export default function RootLayout({ children, session }: RootLayoutProps) {
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -39,13 +41,18 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </head>
         <body
           className={cn(
-            "min-h-screen bg-background font-sans antialiased",
+            "bg-background min-h-screen font-sans antialiased",
             fontSans.variable
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <Provider session={session}>
+              <div className="relative flex min-h-screen flex-col">
+                <div className="flex-1">{children}</div>
+              </div>
+            </Provider>
             <TailwindIndicator />
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
