@@ -3,20 +3,13 @@
 import React, { FunctionComponent } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { countries } from "countries-list"
-import { CalendarIcon, Check, ChevronDown, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronDown, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 import {
   Command,
   CommandEmpty,
@@ -34,9 +27,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
@@ -88,7 +79,7 @@ const sectors = [
   { label: "Chinese", value: "zh" },
 ] as const
 
-const InvestorForm: FunctionComponent<Props> = (props) => {
+const InvestorForm: FunctionComponent<Props> = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(investorFormSchema),
     mode: "onBlur",
