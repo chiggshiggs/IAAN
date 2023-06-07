@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode
-  session: any
+  session?: any
 }
 
 // @ts-ignore
