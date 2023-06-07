@@ -13,7 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator"
 import { MainNav } from "@/components/main-nav"
 import { SiteFooter } from "@/components/site-footer"
 
@@ -28,7 +27,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
               href={"/login"}
               className={cn(
                 buttonVariants({ variant: "default", size: "sm" }),
-                "px-4 mr-4"
+                "mr-4 px-4"
               )}
             >
               Login
@@ -39,16 +38,19 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
                   Join Us
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-auto mt-1.5">
+              <DropdownMenuContent className="mt-1.5 w-auto">
                 <DropdownMenuGroup>
                   <DropdownMenuItem>
-                    {/*<User className="mr-2 h-4 w-4" />*/}
-                    <span>Join as Founder</span>
+                    <Link href={"/register/founder"}>
+                      <span>Join as Founder</span>
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     {/*<User className="mr-2 h-4 w-4" />*/}
-                    <span>Join as Investor</span>
+                    <Link href={"/register/investor"}>
+                      <span>Join as Investor</span>
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
               </DropdownMenuContent>

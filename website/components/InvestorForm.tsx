@@ -1,8 +1,8 @@
 "use client"
 
 import React, { FunctionComponent } from "react"
-import { DevTool } from "@hookform/devtools"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { countries } from "countries-list"
 import { CalendarIcon, Check, ChevronDown, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -30,6 +30,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import { toast } from "@/components/ui/use-toast"
 import {
   Form,
@@ -51,28 +62,21 @@ const investorFormSchema = z.object({
   email: z
     .string({ required_error: "Please enter email" })
     .email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
-  confirmPassword: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
   linkedIn: z.string().url({ message: "Invalid LinkedIn URL" }),
   phone: z.string(),
-  country: z.string(),
-  industry: z.string(),
   gender: z.enum(["male", "female", "other"], {
     invalid_type_error: "Select your gender",
     required_error: "Please select your gender.",
   }),
-  address: z.string(),
   commitment: z.enum(["5L", "10L", "15L", "20L+"]),
   sector: z.string(),
+  mentorship: z.boolean().default(false),
+  country: z.string({ required_error: "Please select your country" }),
 })
 
 type FormValues = z.infer<typeof investorFormSchema>
 
-const languages = [
+const sectors = [
   { label: "FinTech", value: "fintech" },
   { label: "French", value: "fr" },
   { label: "German", value: "de" },
@@ -94,6 +98,7 @@ const InvestorForm: FunctionComponent<Props> = (props) => {
     },
   })
 
+  const countryOptions = Object.values(countries)
   const onSubmit = (data: FormValues) => {
     toast({
       title: "You submitted the following values:",
@@ -103,15 +108,13 @@ const InvestorForm: FunctionComponent<Props> = (props) => {
         </pre>
       ),
     })
-
-    console.log(data)
   }
   return (
     <>
       <Card className={"min-w-max"}>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className={"flex p-2"}>
+            <div className={"md:flex md:p-2"}>
               <FormField
                 control={form.control}
                 name="firstName"
@@ -204,25 +207,63 @@ const InvestorForm: FunctionComponent<Props> = (props) => {
                 </>
               )}
             />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <>
-                  <FormItem className={"m-4"}>
-                    <FormLabel>Phone</FormLabel>
-                    <FormControl>
-                      <Input placeholder="+91 1234567890" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    <FormDescription>
-                      Preferably WhatsApp number
-                    </FormDescription>
-                  </FormItem>
-                </>
-              )}
-            />
-            <div className={"flex"}>
+            <div className={"md:flex"}>
+              <FormField
+                control={form.control}
+                name={"country"}
+                render={({ field }) => (
+                  <>
+                    <FormItem className={"m-4"}>
+                      <FormLabel>Country</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger className="w-[200px]">
+                            <SelectValue placeholder="Select country" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <ScrollArea className={"h-72 w-48"}>
+                              {countryOptions.map((country) => {
+                                return (
+                                  <SelectItem
+                                    value={`+${country?.phone} ${country?.name}`}
+                                  >
+                                    {`+${country?.phone}`} {country?.name}
+                                  </SelectItem>
+                                )
+                              })}
+                            </ScrollArea>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <>
+                    <FormItem className={"m-4"}>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input placeholder="1234567890" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                      <FormDescription>
+                        Preferably WhatsApp number
+                      </FormDescription>
+                    </FormItem>
+                  </>
+                )}
+              />
+            </div>
+
+            <div className={"md:flex"}>
               <FormField
                 control={form.control}
                 name="commitment"
@@ -270,7 +311,7 @@ const InvestorForm: FunctionComponent<Props> = (props) => {
                             )}
                           >
                             {field.value
-                              ? languages.find(
+                              ? sectors.find(
                                   (language) => language.value === field.value
                                 )?.label
                               : "Select Sector"}
@@ -283,7 +324,7 @@ const InvestorForm: FunctionComponent<Props> = (props) => {
                           <CommandInput placeholder="Search language..." />
                           <CommandEmpty>No language found.</CommandEmpty>
                           <CommandGroup>
-                            {languages.map((language) => (
+                            {sectors.map((language) => (
                               <CommandItem
                                 value={language.value}
                                 key={language.value}
@@ -311,12 +352,32 @@ const InvestorForm: FunctionComponent<Props> = (props) => {
                 )}
               />
             </div>
+            <FormField
+              control={form.control}
+              name="mentorship"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">Mentorship</FormLabel>
+                    <FormDescription>
+                      Want to provide mentorship to startups?
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
             <Button type="submit" className={"m-4"}>
               Submit
             </Button>
           </form>
         </Form>
-        {/*<DevTool control={form.control} />*/}
       </Card>
     </>
   )
